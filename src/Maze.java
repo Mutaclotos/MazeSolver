@@ -12,9 +12,16 @@ import java.util.*;
  */
 public class Maze 
 {
-    public static int height = 15; // Se recomienta que las dimensiones sean impares.
-    public static int width = 19;
-    public static int[][] MAZE  = new int[width][height];
+    public static int height = 8; // Se recomienta que las dimensiones sean impares.
+    public static int width = 11;
+    public static int[][] MAZE = {{1,1,1,1,1,1,1,1,1,1,1},
+    							  {1,0,0,0,1,0,1,0,0,0,1},
+    							  {1,0,1,0,1,0,1,0,1,1,1},
+    							  {1,0,1,1,1,0,0,0,1,0,1},
+    							  {1,0,0,0,0,0,1,0,0,0,1},
+    							  {1,0,1,0,1,1,1,0,1,1,1},
+    							  {1,0,1,0,1,0,0,0,0,0,1},
+    							  {1,1,1,1,1,1,1,1,1,1,1}};//  = new int[width][height];
     private int entrada;
     /**
      * Método main
@@ -29,9 +36,9 @@ public class Maze
      */
     public Maze()
     {
-        generarMaze();
-        insertarEntrada(MAZE);
-        insertarSalida(MAZE);
+        //generarMaze();
+        //insertarEntrada(MAZE);
+        //insertarSalida(MAZE);
         //display(MAZE); 
         //sacar de comentario este llamado para desplegar en la consola el laberinto en código de números
         //0 es camino libre, 1 es muro, 2 es entrada y 3 es salida

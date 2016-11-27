@@ -265,11 +265,25 @@ public class Main extends JFrame implements KeyListener
     
     /**
      * Metodo inicializador
+     * 
+     * 			
+   	   0 1 2 3 4 5 6 7 8 9 10
+   
+	0  1 1 1 1 1 1 1 1 1 1 1
+	1  1 0 0 0 1 0 1 0 0 0 1    
+	2  1 0 1 0 1 0 1 0 1 1 1
+	3  1 0 1 1 1 0 0 0 1 s 1
+	4  1 0 0 0 0 0 1 0 0 0 1
+	5  1 0 1 0 1 1 1 0 1 1 1
+	6  1 e 1 0 1 0 0 0 0 0 1
+	7  1 1 1 1 1 1 1 1 1 1 1
+
+     * 
      */
     public void init()
     {
         n = new Nivel();
-        laberinto = new Maze();
+        //laberinto = new Maze();
         DisplayMode dm = n.findFirstCompatibleMode(modes1);
         n.setFullScreen(dm); //pone el programa en pantalla completa
         Window w = n.getFullScreenWindow();
@@ -284,6 +298,7 @@ public class Main extends JFrame implements KeyListener
         recorrido = new MazeSolver();
         recorrido.iniciar(Maze.MAZE);
     }
+    
     
     /**
      * Metodo principal llamado desde el main
