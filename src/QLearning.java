@@ -19,20 +19,21 @@ dimensiones laberinto = 11 x 8
 
 0 = camino
 1 = muro
-14 estados: 
+19 estados: 
 			1 entrada = e
 			1 salida = s
 			6 bifurcaciones = A, C, E, G, I, J
 			6 caminos sin salida = B, D, F, H, K, L
+			5 esquinas = m, n, o, p, q
 
 			
    0 1 2 3 4 5 6 7 8 9 10
    
 0  1 1 1 1 1 1 1 1 1 1 1
-1  1 0 0 0 1 F 1 0 0 H 1    
+1  1 m 0 n 1 F 1 p 0 H 1    
 2  1 0 1 B 1 0 1 0 1 1 1
 3  1 0 1 1 1 E 0 G 1 s 1
-4  1 A 0 C 0 0 1 I 0 0 1
+4  1 A 0 C 0 o 1 I 0 q 1
 5  1 0 1 0 1 1 1 0 1 1 1
 6  1 e 1 D 1 L 0 J 0 K 1
 7  1 1 1 1 1 1 1 1 1 1 1
@@ -54,6 +55,12 @@ dimensiones laberinto = 11 x 8
     static final Point stateK = new Point(6,9);
     static final Point stateL = new Point(6,5);
     
+    static final Point statem = new Point(1,1);
+    static final Point staten = new Point(1,3);
+    static final Point stateo = new Point(4,5);
+    static final Point statep = new Point(1,7);
+    static final Point stateq = new Point(4,9);
+    
     /*//Por alguna estupida razon eclipse no reconoce Map
     final Point pointA = new Point(2,1);
     
@@ -62,8 +69,9 @@ dimensiones laberinto = 11 x 8
     //map.put(stateA, pointA);
     Map map = new HashMap();*/
 
-    final int statesCount = 14;
-    final Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,stateH,stateI,stateJ,stateK,stateL,salida};
+    final int statesCount = 19;
+    final Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
+    									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
     
  
     // http://en.wikipedia.org/wiki/Q-learning
@@ -75,33 +83,43 @@ dimensiones laberinto = 11 x 8
     double[][] Q = new double[statesCount][statesCount]; // Q learning
  
     Point[] actionsFromEntrada = new Point[] { stateA };
-    Point[] actionsFromA = new Point[] { entrada, stateB, stateC };
-    Point[] actionsFromB = new Point[] { stateA };
-    Point[] actionsFromC = new Point[] { stateA, stateD, stateE };
+    
+    Point[] actionsFromA = new Point[] { entrada, statem, stateC };
+    Point[] actionsFromB = new Point[] { staten };
+    Point[] actionsFromC = new Point[] { stateA, stateD, stateo };
     Point[] actionsFromD = new Point[] { stateC };
-    Point[] actionsFromE = new Point[] { stateC, stateF, stateG };
+    Point[] actionsFromE = new Point[] { stateo, stateF, stateG };
     Point[] actionsFromF = new Point[] { stateE };
-    Point[] actionsFromG = new Point[] { stateE, stateH, stateI };
-    Point[] actionsFromH = new Point[] { stateG };
-    Point[] actionsFromI = new Point[] { stateG, salida, stateJ };
+    Point[] actionsFromG = new Point[] { stateE, statep, stateI };
+    Point[] actionsFromH = new Point[] { statep };
+    Point[] actionsFromI = new Point[] { stateG, stateq, stateJ };
     Point[] actionsFromJ = new Point[] { stateI, stateK, stateL };
     Point[] actionsFromK = new Point[] { stateJ };
-    Point[] actionsFromL = new Point[] { stateJ };    
+    Point[] actionsFromL = new Point[] { stateJ };   
+    
+    Point[] actionsFromm = new Point[] { staten, stateA };
+    Point[] actionsFromn = new Point[] { stateB, statem };
+    Point[] actionsFromo = new Point[] { stateE, stateC };
+    Point[] actionsFromp = new Point[] { stateH, stateG };
+    Point[] actionsFromq = new Point[] { salida, stateI };
+    
     Point[] actionsFromSalida = new Point[] { salida };
     
     Point[][] actions = new Point[][] { actionsFromEntrada, actionsFromA, actionsFromB, actionsFromC,
-            							actionsFromD, actionsFromE, actionsFromF, actionsFromG, actionsFromH, actionsFromI, 
-            							actionsFromJ, actionsFromK, actionsFromL, actionsFromSalida };
+            							actionsFromD, actionsFromE, actionsFromF, actionsFromG, actionsFromH, 
+            							actionsFromI, actionsFromJ, actionsFromK, actionsFromL, actionsFromm, 
+            							actionsFromn, actionsFromo, actionsFromp, actionsFromq, actionsFromSalida };
  
-    String[] stateNames = new String[] { "entrada", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "salida" };
+    String[] stateNames = new String[] { "entrada", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "m", "n", "o", "p", "q", "salida" };
  
-    public QLearning() {
+    public QLearning() 
+    {
         init();
     }
  
     public void init() 
     {          	
-        R[getIndex(stateI)][getIndex(salida)] = 100; // recompenza por pasar de I a salida
+        R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida
         //R[getIndex(stateF)][getIndex(stateC)] = 100; // from f to c     
     }
     
@@ -121,7 +139,8 @@ dimensiones laberinto = 11 x 8
     	return 0;
     }
  
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         long BEGIN = System.currentTimeMillis();
  
         QLearning obj = new QLearning();
@@ -134,7 +153,8 @@ dimensiones laberinto = 11 x 8
         System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
     }
  
-    void run() {
+    public void run() 
+    {
         /*
          1. Set parameter , and environment reward matrix R 
          2. Initialize matrix Q as zero matrix 
@@ -147,25 +167,25 @@ dimensiones laberinto = 11 x 8
          */
  
         // For each episode
-        Random rand = new Random();
-        for (int i = 0; i < 1000; i++) { // train episodes
+        
+        for (int i = 0; i < 1000; i++) 
+        { // train episodes
             // Select random initial state
         	//int randomState = rand.nextInt(statesCount);
             //Point state = states[randomState];
         	Point state = entrada;
+        	Point lastState = entrada;
             while (state != salida) // goal state
             {
                 // Select one among all possible actions for the current state
                 Point[] actionsFromState = actions[getIndex(state)];
-                 
-                // Selection strategy is random in this example
-                int index = rand.nextInt(actionsFromState.length);
-                Point action = actionsFromState[index];
- 
+                
+                Point action = getActionsFromState(actionsFromState, state, lastState); 
+                
                 // Action outcome is set to deterministic in this example
                 // Transition probability is 1
                 Point nextState = action; // data structure
- 
+                
                 // Using this possible action, consider to go to the next state
                 double q = Q(state, action);
                 double maxQ = maxQ(nextState);
@@ -173,17 +193,90 @@ dimensiones laberinto = 11 x 8
  
                 double value = q + alpha * (r + gamma * maxQ - q);
                 setQ(state, action, value);
- 
+                
+                //Set the current state as the lastState
+                lastState = state;
                 // Set the next state as the current state
                 state = nextState;
             }
         }
     }
+    
+    // Selection strategy is random if the current state is not a corner
+    private Point getActionsFromState(Point[] actions, Point currentState, Point lastState)
+    {
+    	Point action = null;
+    	Random rand = new Random();
+    	if(currentState.equals(statem))
+        {
+        	if(lastState.equals(stateA))
+        	{
+        		action = actions[0];
+        	}
+        	else
+        	{
+        		action = actions[1];
+        	}
+        }
+    	else if(currentState.equals(staten))
+    	{
+    		if(lastState.equals(statem))
+        	{
+        		action = actions[0];
+        	}
+        	else
+        	{
+        		action = actions[1];
+        	}
+    	}
+    	else if(currentState.equals(stateo))
+    	{
+    		if(lastState.equals(stateC))
+        	{
+        		action = actions[0];
+        	}
+        	else
+        	{
+        		action = actions[1];
+        	}
+    	}
+    	else if(currentState.equals(statep))
+    	{
+    		if(lastState.equals(stateG))
+        	{
+        		action = actions[0];
+        	}
+        	else
+        	{
+        		action = actions[1];
+        	}
+    	}
+    	else if(currentState.equals(stateq))
+    	{
+    		if(lastState.equals(stateI))
+        	{
+        		action = actions[0];
+        	}
+        	else
+        	{
+        		action = actions[1];
+        	}
+    	}
+        else
+        {
+        	int index = rand.nextInt(actions.length);
+            action = actions[index];
+        }
+    	
+    	return action;
+    }
  
-    double maxQ(Point s) {
+    private double maxQ(Point s) 
+    {
         Point[] actionsFromState = actions[getIndex(s)];
         double maxValue = Double.MIN_VALUE;
-        for (int i = 0; i < actionsFromState.length; i++) {
+        for (int i = 0; i < actionsFromState.length; i++) 
+        {
             Point nextState = actionsFromState[i];
             double value = Q[getIndex(s)][getIndex(nextState)];
  
@@ -194,15 +287,18 @@ dimensiones laberinto = 11 x 8
     }
  
     // get policy from state
-    Point policy(Point state) {
+    public Point policy(Point state) 
+    {
         Point[] actionsFromState = actions[getIndex(state)];
         double maxValue = Double.MIN_VALUE;
         Point policyGotoState = state; // default goto self if not found
-        for (int i = 0; i < actionsFromState.length; i++) {
+        for (int i = 0; i < actionsFromState.length; i++) 
+        {
         	Point nextState = actionsFromState[i];
             double value = Q[getIndex(state)][getIndex(nextState)];
  
-            if (value > maxValue) {
+            if (value > maxValue) 
+            {
                 maxValue = value;
                 policyGotoState = nextState;
             }
@@ -210,23 +306,29 @@ dimensiones laberinto = 11 x 8
         return policyGotoState;
     }
  
-    double Q(Point s, Point a) {
+    double Q(Point s, Point a) 
+    {
         return Q[getIndex(s)][getIndex(a)];
     }
  
-    void setQ(Point s, Point a, double value) {
+    void setQ(Point s, Point a, double value)
+    {
         Q[getIndex(s)][getIndex(a)] = value;
     }
  
-    int R(Point s, Point a) {
+    int R(Point s, Point a) 
+    {
         return R[getIndex(s)][getIndex(a)];
     }
  
-    void printResult() {
+    void printResult() 
+    {
         System.out.println("Print result");
-        for (int i = 0; i < Q.length; i++) {
+        for (int i = 0; i < Q.length; i++) 
+        {
             System.out.print("out from " + stateNames[i] + ":  ");
-            for (int j = 0; j < Q[i].length; j++) {
+            for (int j = 0; j < Q[i].length; j++) 
+            {
                 System.out.print(df.format(Q[i][j]) + " ");
             }
             System.out.println();
@@ -234,9 +336,11 @@ dimensiones laberinto = 11 x 8
     }
  
     // policy is maxQ(states)
-    void showPolicy() {
+    void showPolicy() 
+    {
         System.out.println("\nshowPolicy");
-        for (int i = 0; i < states.length; i++) {
+        for (int i = 0; i < states.length; i++)
+        {
             Point from = states[i];
             Point to =  policy(from);
             System.out.println("from "+stateNames[getIndex(from)]+" goto "+stateNames[getIndex(to)]);

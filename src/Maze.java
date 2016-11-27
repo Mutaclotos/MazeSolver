@@ -12,16 +12,19 @@ import java.util.*;
  */
 public class Maze 
 {
-    public static int height = 8; // Se recomienta que las dimensiones sean impares.
-    public static int width = 11;
+    
+    //3 = salida, 2 = entrada
     public static int[][] MAZE = {{1,1,1,1,1,1,1,1,1,1,1},
     							  {1,0,0,0,1,0,1,0,0,0,1},
     							  {1,0,1,0,1,0,1,0,1,1,1},
-    							  {1,0,1,1,1,0,0,0,1,0,1},
+    							  {1,0,1,1,1,0,0,0,1,3,1},
     							  {1,0,0,0,0,0,1,0,0,0,1},
     							  {1,0,1,0,1,1,1,0,1,1,1},
-    							  {1,0,1,0,1,0,0,0,0,0,1},
+    							  {1,2,1,0,1,0,0,0,0,0,1},
     							  {1,1,1,1,1,1,1,1,1,1,1}};//  = new int[width][height];
+    public static int height = MAZE[0].length; // Se recomienta que las dimensiones sean impares.
+    public static int width = MAZE.length;
+    
     private int entrada;
     /**
      * Método main

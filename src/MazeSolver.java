@@ -32,8 +32,10 @@ public class MazeSolver
     public void iniciar(int[][] laberinto) 
     {
         maze = laberinto;
-        inicio = getInicio();
-        fin = getFinal();
+        //inicio = getInicio();
+        //fin = getFinal();
+        inicio = qlearning.entrada;
+        fin = qlearning.salida;
     }
 
     
@@ -162,24 +164,47 @@ public class MazeSolver
         
         Point celdaActual = celda;
         
-        while(!celdaActual.equals(qlearning.salida))
+        while(!celdaActual.equals(fin))
         {
-        	//Si la celda actual es entrada
-        	if(qlearning.policy(celdaActual).equals(qlearning.stateA))
+        	Point celdaSiguiente = qlearning.policy(celdaActual);
+        	
+        	//Si la siguiente celda del recorrido esta mas arriba que la celdaActual
+        	if(celdaSiguiente.y < celdaActual.y)
         	{
-        		while(!celdaActual.equals(qlearning.stateA))
+        		while(!celdaActual.equals(celdaSiguiente))
         		{
         			//mover arriba una posicion
         			celdaActual = getCeldaArriba(celdaActual);
         			esperar();
         		}
         	}
-        	else if(qlearning.policy(celdaActual).equals(qlearning.stateC))
+        	//Si la siguiente celda del recorrido esta mas a la derecha que la celdaActual
+        	else if(celdaSiguiente.x > celdaActual.x)
         	{
-        		while(!celdaActual.equals(qlearning.stateC))
+        		while(!celdaActual.equals(celdaSiguiente))
         		{
         			//mover derecha una posicion
         			celdaActual = getCeldaDerecha(celdaActual);
+        			esperar();
+        		}
+        	}
+        	//Si la siguiente celda del recorrido esta mas abajo que la celdaActual
+        	else if(celdaSiguiente.y > celdaActual.y)
+        	{
+        		while(!celdaActual.equals(celdaSiguiente))
+        		{
+        			//mover derecha una posicion
+        			celdaActual = getCeldaAbajo(celdaActual);
+        			esperar();
+        		}
+        	}
+        	//Si la siguiente celda del recorrido esta mas a la izquierda que la celdaActual
+        	else if(celdaSiguiente.x < celdaActual.x)
+        	{
+        		while(!celdaActual.equals(celdaSiguiente))
+        		{
+        			//mover derecha una posicion
+        			celdaActual = getCeldaIzquierda(celdaActual);
         			esperar();
         		}
         	}

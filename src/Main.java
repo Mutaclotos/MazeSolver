@@ -110,6 +110,7 @@ public class Main extends JFrame implements KeyListener
         {
             for(int j = 0; j < laberinto.height; j++)
             {
+            	//se carga al avatar encima de la entrada
                 if(Maze.MAZE[i][j] == 2)
                 {
                     avatar = new Avatar(a);
