@@ -12,6 +12,7 @@ public class MazeSolver
 {
     public static int[][] maze;
     Main main = new Main();
+    QLearning qlearning = new QLearning();
     // Coordenadas de la entrada y la salida
     private Point inicio;
     private Point fin;
@@ -45,12 +46,15 @@ public class MazeSolver
      */
     public void resolver()
     {
-        counter++;
+    	//Se entrena al agente
+    	qlearning.run();
+    	qlearning.showPolicy();
+        //counter++;
         if(encontrarCamino(inicio))
         {
 			//System.out.println("Laberinto resuelto");
             //display(maze);
-            while(counter <= 3) //Mientras no se hayan recorrido 3 niveles, continuar ejecutando
+            /*while(counter <= 3) //Mientras no se hayan recorrido 3 niveles, continuar ejecutando
             {
                 if(counter == 1)
                 {
@@ -100,7 +104,9 @@ public class MazeSolver
                 //display(Maze.MAZE);
                 
                 resolver(); //Se llama al metodo resolver nuevamente para encontrar la solucion de este nuevo laberinto
-            }
+            }*/
+            Main.victoria = true; //Se despliega el mensaje de victoria
+            Main.runRecorrido = false; //Se termina el proceso del thread1
         }
         else 
         {
@@ -120,7 +126,7 @@ public class MazeSolver
      */
     private boolean encontrarCamino(Point celda) 
     {
-        // Si se encontró la salida, retorna true
+        /*// Si se encontró la salida, retorna true
         if(labTerminado(celda)) 
         {
             maze[celda.x][celda.y] = SALIDA;
@@ -147,13 +153,39 @@ public class MazeSolver
 
                 esperar();
             }
-        }
+        }*/
 
         //Si no hay movimientos legales desde esta celda, o todos los movimientos
         //intentados han conducido a backtracks, se retorna false para comunicarle 
         //a la llamada de la celda anterior que un camino diferente debe ser tomado. 
+    	
+        
+        Point celdaActual = celda;
+        
+        while(!celdaActual.equals(qlearning.salida))
+        {
+        	//Si la celda actual es entrada
+        	if(qlearning.policy(celdaActual).equals(qlearning.stateA))
+        	{
+        		while(!celdaActual.equals(qlearning.stateA))
+        		{
+        			//mover arriba una posicion
+        			celdaActual = getCeldaArriba(celdaActual);
+        			esperar();
+        		}
+        	}
+        	else if(qlearning.policy(celdaActual).equals(qlearning.stateC))
+        	{
+        		while(!celdaActual.equals(qlearning.stateC))
+        		{
+        			//mover derecha una posicion
+        			celdaActual = getCeldaDerecha(celdaActual);
+        			esperar();
+        		}
+        	}
+        }
 
-        return false;
+        return true;
     }
 
     /**
@@ -182,6 +214,34 @@ public class MazeSolver
         celdasAdyacentes[3] = new Point(celda.x, celda.y - 1); //arriba
 
         return celdasAdyacentes;
+    }
+    
+    private Point getCeldaArriba(Point celda)
+    {
+    	Point arriba = new Point(celda.x, celda.y - 1);
+    	entrarCelda(arriba);
+    	return arriba;
+    }
+    
+    private Point getCeldaAbajo(Point celda)
+    {
+    	Point abajo = new Point(celda.x + 1, celda.y);
+    	entrarCelda(abajo);
+    	return abajo;
+    }
+    
+    private Point getCeldaDerecha(Point celda)
+    {
+    	Point derecha = new Point(celda.x, celda.y + 1);
+    	entrarCelda(derecha);
+    	return derecha;
+    }
+    
+    private Point getCeldaIzquierda(Point celda)
+    {
+    	Point izquierda = new Point(celda.x - 1, celda.y);
+    	entrarCelda(izquierda);
+    	return izquierda;
     }
 
     /**

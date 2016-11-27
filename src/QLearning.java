@@ -38,21 +38,21 @@ dimensiones laberinto = 11 x 8
 7  1 1 1 1 1 1 1 1 1 1 1
 */
     //Points con las coordenadas de la matriz anterior
-    final Point entrada = new Point(6,1);
-    final Point salida = new Point(3,9);
+    static final Point entrada = new Point(6,1);
+    static final Point salida = new Point(3,9);
  
-    final Point stateA = new Point(4,1);
-    final Point stateB = new Point(2,3);
-    final Point stateC = new Point(4,3);
-    final Point stateD = new Point(6,3);
-    final Point stateE = new Point(3,5);
-    final Point stateF = new Point(1,5);
-    final Point stateG = new Point(3,7);
-    final Point stateH = new Point(1,9);
-    final Point stateI = new Point(4,7);
-    final Point stateJ = new Point(6,7);
-    final Point stateK = new Point(6,9);
-    final Point stateL = new Point(6,5);
+    static final Point stateA = new Point(4,1);
+    static final Point stateB = new Point(2,3);
+    static final Point stateC = new Point(4,3);
+    static final Point stateD = new Point(6,3);
+    static final Point stateE = new Point(3,5);
+    static final Point stateF = new Point(1,5);
+    static final Point stateG = new Point(3,7);
+    static final Point stateH = new Point(1,9);
+    static final Point stateI = new Point(4,7);
+    static final Point stateJ = new Point(6,7);
+    static final Point stateK = new Point(6,9);
+    static final Point stateL = new Point(6,5);
     
     /*//Por alguna estupida razon eclipse no reconoce Map
     final Point pointA = new Point(2,1);
