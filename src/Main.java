@@ -400,6 +400,7 @@ public class Main extends JFrame implements KeyListener
                    if(muro[row][column] != null)
                    {
                         g.drawImage(muro[row][column].getImage(), Math.round(muro[row][column].getX()), Math.round(muro[row][column].getY()), null);
+                        //System.out.println(row + " " + column);
                    }
                }
                else if(Maze.MAZE[row][column] == 2) //el avatar y la entrada son dibujados con las mismas coordenadas
@@ -425,7 +426,7 @@ public class Main extends JFrame implements KeyListener
         g.setColor(Color.WHITE); //para los mensajes arriba de la pantalla
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         g.drawString("Esc para salir", 30,30);
-        g.drawString("Nivel " + level + "/3", 400,30);
+        g.drawString("Nivel " + level + "/1", 400,30);
         //despliega el mensaje de victoria
         if(victoria)
         {

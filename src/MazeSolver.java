@@ -49,14 +49,15 @@ public class MazeSolver
     public void resolver()
     {
     	//Se entrena al agente
+    	System.out.println("Empezando recorrido.");
     	qlearning.run();
     	qlearning.showPolicy();
         //counter++;
-        if(encontrarCamino(inicio))
+        /*if(encontrarCamino(inicio))
         {
 			//System.out.println("Laberinto resuelto");
             //display(maze);
-            /*while(counter <= 3) //Mientras no se hayan recorrido 3 niveles, continuar ejecutando
+            while(counter <= 3) //Mientras no se hayan recorrido 3 niveles, continuar ejecutando
             {
                 if(counter == 1)
                 {
@@ -107,13 +108,16 @@ public class MazeSolver
                 
                 resolver(); //Se llama al metodo resolver nuevamente para encontrar la solucion de este nuevo laberinto
             }*/
+    		encontrarCamino(inicio);
+    	
+        	System.out.println("Recorrido terminado.");
             Main.victoria = true; //Se despliega el mensaje de victoria
             Main.runRecorrido = false; //Se termina el proceso del thread1
-        }
+        /*}
         else 
         {
             System.out.println("Laberinto sin solucion!");
-        }
+        }*/
     }
 
     /**
@@ -126,7 +130,7 @@ public class MazeSolver
      * anterior. El algoritmo termina cuando se llega a la salida.
      * 
      */
-    private boolean encontrarCamino(Point celda) 
+    private void encontrarCamino(Point celda) 
     {
         /*// Si se encontró la salida, retorna true
         if(labTerminado(celda)) 
@@ -163,10 +167,14 @@ public class MazeSolver
     	
         
         Point celdaActual = celda;
-        
+        //System.out.println("Policy desde A a C: "+ qlearning.policy(qlearning.stateA));
+        System.out.println("Inicio en entrada con coordenadas: " + celda);
+        Point celdaSiguiente;
         while(!celdaActual.equals(fin))
         {
-        	Point celdaSiguiente = qlearning.policy(celdaActual);
+        	System.out.println("Celda actual: " + celdaActual);
+        	celdaSiguiente = qlearning.policy(celdaActual);
+        	System.out.println("Policy celda siguiente: " + qlearning.policy(celdaActual));
         	
         	//Si la siguiente celda del recorrido esta mas arriba que la celdaActual
         	if(celdaSiguiente.y < celdaActual.y)
@@ -175,6 +183,7 @@ public class MazeSolver
         		{
         			//mover arriba una posicion
         			celdaActual = getCeldaArriba(celdaActual);
+        			System.out.println("Moviendo arriba.");
         			esperar();
         		}
         	}
@@ -185,6 +194,7 @@ public class MazeSolver
         		{
         			//mover derecha una posicion
         			celdaActual = getCeldaDerecha(celdaActual);
+        			System.out.println("Moviendo derecha.");
         			esperar();
         		}
         	}
@@ -193,8 +203,9 @@ public class MazeSolver
         	{
         		while(!celdaActual.equals(celdaSiguiente))
         		{
-        			//mover derecha una posicion
+        			//mover abajo una posicion
         			celdaActual = getCeldaAbajo(celdaActual);
+        			System.out.println("Moviendo abajo.");
         			esperar();
         		}
         	}
@@ -203,14 +214,15 @@ public class MazeSolver
         	{
         		while(!celdaActual.equals(celdaSiguiente))
         		{
-        			//mover derecha una posicion
+        			//mover izquierda una posicion
         			celdaActual = getCeldaIzquierda(celdaActual);
+        			System.out.println("Moviendo izquierda.");
         			esperar();
         		}
         	}
         }
-
-        return true;
+        System.out.println("Recorrido terminado.");
+        //return true;
     }
 
     /**
@@ -250,14 +262,14 @@ public class MazeSolver
     
     private Point getCeldaAbajo(Point celda)
     {
-    	Point abajo = new Point(celda.x + 1, celda.y);
+    	Point abajo = new Point(celda.x, celda.y + 1);
     	entrarCelda(abajo);
     	return abajo;
     }
     
     private Point getCeldaDerecha(Point celda)
     {
-    	Point derecha = new Point(celda.x, celda.y + 1);
+    	Point derecha = new Point(celda.x + 1, celda.y);
     	entrarCelda(derecha);
     	return derecha;
     }

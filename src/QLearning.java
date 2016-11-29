@@ -59,7 +59,42 @@ dimensiones laberinto = 11 x 8
     static final Point staten = new Point(1,3);
     static final Point stateo = new Point(4,5);
     static final Point statep = new Point(1,7);
-    static final Point stateq = new Point(4,9);
+    static final Point stateq = new Point(4,9); 
+    
+    /* 0 1 2 3 4 5 6 7 8 9 10
+    
+    7  1 1 1 1 1 1 1 1 1 1 1
+    6  1 m 0 n 1 F 1 p 0 H 1    
+    5  1 0 1 B 1 0 1 0 1 1 1
+    4  1 0 1 1 1 E 0 G 1 s 1
+    3  1 A 0 C 0 o 1 I 0 q 1
+    2  1 0 1 0 1 1 1 0 1 1 1
+    1  1 e 1 D 1 L 0 J 0 K 1
+    0  1 1 1 1 1 1 1 1 1 1 1
+    */
+    
+    
+    /*static final Point entrada = new Point(1,1);
+    static final Point salida = new Point(4,9);
+ 
+    static final Point stateA = new Point(3,1);
+    static final Point stateB = new Point(5,3);
+    static final Point stateC = new Point(3,3);
+    static final Point stateD = new Point(1,3);
+    static final Point stateE = new Point(4,5);
+    static final Point stateF = new Point(6,5);
+    static final Point stateG = new Point(4,7);
+    static final Point stateH = new Point(6,9);
+    static final Point stateI = new Point(3,7);
+    static final Point stateJ = new Point(1,7);
+    static final Point stateK = new Point(1,9);
+    static final Point stateL = new Point(1,5);
+    
+    static final Point statem = new Point(6,1);
+    static final Point staten = new Point(6,3);
+    static final Point stateo = new Point(3,5);
+    static final Point statep = new Point(6,7);
+    static final Point stateq = new Point(3,9);*/
     
     /*//Por alguna estupida razon eclipse no reconoce Map
     final Point pointA = new Point(2,1);
@@ -129,7 +164,7 @@ dimensiones laberinto = 11 x 8
     	
     	for(Point st : states)
     	{
-    		if(st == state)
+    		if(st.equals(state))
     		{
     			return index;
     		}
@@ -344,6 +379,7 @@ dimensiones laberinto = 11 x 8
             Point from = states[i];
             Point to =  policy(from);
             System.out.println("from "+stateNames[getIndex(from)]+" goto "+stateNames[getIndex(to)]);
+            System.out.println("from "+from.toString()+" goto "+to.toString());
         }           
     }
 }
