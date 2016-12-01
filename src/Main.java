@@ -117,8 +117,8 @@ public class Main extends JFrame implements KeyListener
                     avatar.setVelocityX(VELOCIDAD);
                     avatar.setVelocityY(VELOCIDAD); 
                     
-                    int x = Math.round(avatar.getX()) + i * avatar.getWidth();
-                    int y = Math.round(avatar.getY()) + j * avatar.getHeight();
+                    int x = Math.round(avatar.getX()) + j * avatar.getWidth();
+                    int y = Math.round(avatar.getY()) + i * avatar.getHeight();
                      //se establecen las coordenadas iniciales del avatar
                     avatar.setX(x);
                     avatar.setY(y);
@@ -159,8 +159,8 @@ public class Main extends JFrame implements KeyListener
                      
                      //se coloca cada bloque justo después del anterior, usando sus dimensiones como coordenadas
                      //en la pantalla
-                     int x = Math.round(muro[i][j].getX()) + i * muro[i][j].getWidth(); 
-                     int y = Math.round(muro[i][j].getY()) + j * muro[i][j].getHeight();
+                     int x = Math.round(muro[i][j].getX()) + j * muro[i][j].getWidth(); 
+                     int y = Math.round(muro[i][j].getY()) + i * muro[i][j].getHeight();
                      
                      muro[i][j].setX(x);
                      muro[i][j].setY(y);
@@ -189,8 +189,8 @@ public class Main extends JFrame implements KeyListener
                     entrada[i][j].setVelocityX(0);
                     entrada[i][j].setVelocityY(0);
                     
-                    int x = Math.round(entrada[i][j].getX()) + i * entrada[i][j].getWidth();
-                    int y = Math.round(entrada[i][j].getY()) + j * entrada[i][j].getHeight();
+                    int x = Math.round(entrada[i][j].getX()) + j * entrada[i][j].getWidth();
+                    int y = Math.round(entrada[i][j].getY()) + i * entrada[i][j].getHeight();
                     
                     entrada[i][j].setX(x);
                     entrada[i][j].setY(y);
@@ -219,8 +219,8 @@ public class Main extends JFrame implements KeyListener
                     salida[i][j].setVelocityX(0);
                     salida[i][j].setVelocityY(0);
                     
-                    int x = Math.round(salida[i][j].getX()) + i * salida[i][j].getWidth();
-                    int y = Math.round(salida[i][j].getY()) + j * salida[i][j].getHeight() + j/4; //se añade el j a la coordenada y para compensar 
+                    int x = Math.round(salida[i][j].getX()) + j * salida[i][j].getWidth()  + j/4;
+                    int y = Math.round(salida[i][j].getY()) + i * salida[i][j].getHeight(); //se añade el j a la coordenada y para compensar 
                                                                                                   //por una desigualdad en las dimensiones
                                                                                                 //de la imagen de la salida
                     salida[i][j].setX(x);
