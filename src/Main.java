@@ -117,8 +117,8 @@ public class Main extends JFrame implements KeyListener
                     avatar.setVelocityX(VELOCIDAD);
                     avatar.setVelocityY(VELOCIDAD); 
                     
-                    int x = Math.round(avatar.getX()) + j * avatar.getWidth();
-                    int y = Math.round(avatar.getY()) + i * avatar.getHeight();
+                    int x = Math.round(avatar.getX()) + i * avatar.getWidth();
+                    int y = Math.round(avatar.getY()) + j * avatar.getHeight();
                      //se establecen las coordenadas iniciales del avatar
                     avatar.setX(x);
                     avatar.setY(y);
@@ -159,8 +159,8 @@ public class Main extends JFrame implements KeyListener
                      
                      //se coloca cada bloque justo después del anterior, usando sus dimensiones como coordenadas
                      //en la pantalla
-                     int x = Math.round(muro[i][j].getX()) + j * muro[i][j].getWidth(); 
-                     int y = Math.round(muro[i][j].getY()) + i * muro[i][j].getHeight();
+                     int x = Math.round(muro[i][j].getX()) + i * muro[i][j].getWidth(); 
+                     int y = Math.round(muro[i][j].getY()) + j * muro[i][j].getHeight();
                      
                      muro[i][j].setX(x);
                      muro[i][j].setY(y);
@@ -189,8 +189,8 @@ public class Main extends JFrame implements KeyListener
                     entrada[i][j].setVelocityX(0);
                     entrada[i][j].setVelocityY(0);
                     
-                    int x = Math.round(entrada[i][j].getX()) + j * entrada[i][j].getWidth();
-                    int y = Math.round(entrada[i][j].getY()) + i * entrada[i][j].getHeight();
+                    int x = Math.round(entrada[i][j].getX()) + i * entrada[i][j].getWidth();
+                    int y = Math.round(entrada[i][j].getY()) + j * entrada[i][j].getHeight();
                     
                     entrada[i][j].setX(x);
                     entrada[i][j].setY(y);
@@ -219,8 +219,8 @@ public class Main extends JFrame implements KeyListener
                     salida[i][j].setVelocityX(0);
                     salida[i][j].setVelocityY(0);
                     
-                    int x = Math.round(salida[i][j].getX()) + j * salida[i][j].getWidth()  + j/4;
-                    int y = Math.round(salida[i][j].getY()) + i * salida[i][j].getHeight(); //se añade el j a la coordenada y para compensar 
+                    int x = Math.round(salida[i][j].getX()) + i * salida[i][j].getWidth();  
+                    int y = Math.round(salida[i][j].getY()) + j * salida[i][j].getHeight()+ j/4; //se añade el j a la coordenada y para compensar 
                                                                                                   //por una desigualdad en las dimensiones
                                                                                                 //de la imagen de la salida
                     salida[i][j].setX(x);
@@ -266,19 +266,6 @@ public class Main extends JFrame implements KeyListener
     
     /**
      * Metodo inicializador
-     * 
-     * 			
-   	   0 1 2 3 4 5 6 7 8 9 10
-   
-	0  1 1 1 1 1 1 1 1 1 1 1
-	1  1 0 0 0 1 0 1 0 0 0 1    
-	2  1 0 1 0 1 0 1 0 1 1 1
-	3  1 0 1 1 1 0 0 0 1 s 1
-	4  1 0 0 0 0 0 1 0 0 0 1
-	5  1 0 1 0 1 1 1 0 1 1 1
-	6  1 e 1 0 1 0 0 0 0 0 1
-	7  1 1 1 1 1 1 1 1 1 1 1
-
      * 
      */
     public void init()
@@ -517,26 +504,6 @@ public class Main extends JFrame implements KeyListener
         {
             stop();
         }
-        else if(keyCode == KeyEvent.VK_UP)
-        {
-            setIndex(0);
-            e.consume();
-        }
-        else if(keyCode == KeyEvent.VK_DOWN)
-        {
-            setIndex(1);
-            e.consume();
-        }
-        else if(keyCode == KeyEvent.VK_RIGHT)
-        {
-            setIndex(2);
-            e.consume();
-        }
-        else if(keyCode == KeyEvent.VK_LEFT)
-        {
-            setIndex(3);
-            e.consume();
-        }
         else
         {
             e.consume();
@@ -599,15 +566,5 @@ public class Main extends JFrame implements KeyListener
     {
         running = false;
         runRecorrido = false;
-    }
-    
-    //metodo que detecta la colision entre dos sprites
-    public boolean hayColision(float x1, float y1, int width1, int height1, float x2, float y2, int width2, int height2)
-    {
-         if((x1 > x2 && x1 < x2 + width2) || (x1 + width1 > x2 && x1 + width1 < x2 + width2) || (y1 > y2 && y1 < y2 + height2) || (y1 + height1 > y2 && y1 + height1 < y2 + height2))
-         {
-            return true;
-         }
-         return false;
     }
 }

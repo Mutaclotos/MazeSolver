@@ -72,45 +72,12 @@ dimensiones laberinto = 11 x 8
     1  1 e 1 D 1 L 0 J 0 K 1
     0  1 1 1 1 1 1 1 1 1 1 1
     */
-    
-    
-    /*static final Point entrada = new Point(1,1);
-    static final Point salida = new Point(4,9);
- 
-    static final Point stateA = new Point(3,1);
-    static final Point stateB = new Point(5,3);
-    static final Point stateC = new Point(3,3);
-    static final Point stateD = new Point(1,3);
-    static final Point stateE = new Point(4,5);
-    static final Point stateF = new Point(6,5);
-    static final Point stateG = new Point(4,7);
-    static final Point stateH = new Point(6,9);
-    static final Point stateI = new Point(3,7);
-    static final Point stateJ = new Point(1,7);
-    static final Point stateK = new Point(1,9);
-    static final Point stateL = new Point(1,5);
-    
-    static final Point statem = new Point(6,1);
-    static final Point staten = new Point(6,3);
-    static final Point stateo = new Point(3,5);
-    static final Point statep = new Point(6,7);
-    static final Point stateq = new Point(3,9);*/
-    
-    /*//Por alguna estupida razon eclipse no reconoce Map
-    final Point pointA = new Point(2,1);
-    
-    Map<Integer, Point> mapa = new HashMap<Integer, Point>();
-    
-    //map.put(stateA, pointA);
-    Map map = new HashMap();*/
 
     final int statesCount = 19;
+    final int numRepeticiones = 4;
     final Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
     									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
     
- 
-    // http://en.wikipedia.org/wiki/Q-learning
-    // http://people.revoledu.com/kardi/tutorial/ReinforcementLearning/Q-Learning.htm
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
  
@@ -154,8 +121,7 @@ dimensiones laberinto = 11 x 8
  
     public void init() 
     {          	
-        R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida
-        //R[getIndex(stateF)][getIndex(stateC)] = 100; // from f to c     
+        R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida   
     }
     
     public int getIndex(Point state)
@@ -190,20 +156,9 @@ dimensiones laberinto = 11 x 8
  
     public void run() 
     {
-        /*
-         1. Set parameter , and environment reward matrix R 
-         2. Initialize matrix Q as zero matrix 
-         3. For each episode: Select random initial state 
-            Do while not reach goal state o 
-                Select one among all possible actions for the current state o 
-                Using this possible action, consider to go to the next state o 
-                Get maximum Q value of this next state based on all possible actions o 
-                Compute o Set the next state as the current state
-         */
  
-        // For each episode
         
-        for (int i = 0; i < 1000; i++) 
+        for (int i = 0; i < numRepeticiones; i++) 
         { // train episodes
             // Select random initial state
         	//int randomState = rand.nextInt(statesCount);

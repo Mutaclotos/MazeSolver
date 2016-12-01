@@ -113,11 +113,7 @@ public class MazeSolver
         	System.out.println("Recorrido terminado.");
             Main.victoria = true; //Se despliega el mensaje de victoria
             Main.runRecorrido = false; //Se termina el proceso del thread1
-        /*}
-        else 
-        {
-            System.out.println("Laberinto sin solucion!");
-        }*/
+        
     }
 
     /**
@@ -172,9 +168,9 @@ public class MazeSolver
         Point celdaSiguiente;
         while(!celdaActual.equals(fin))
         {
-        	System.out.println("Celda actual: " + celdaActual);
+        	//System.out.println("Celda actual: " + celdaActual);
         	celdaSiguiente = qlearning.policy(celdaActual);
-        	System.out.println("Policy celda siguiente: " + qlearning.policy(celdaActual));
+        	//System.out.println("Policy celda siguiente: " + qlearning.policy(celdaActual));
         	
         	//Si la siguiente celda del recorrido esta mas arriba que la celdaActual
         	if(celdaSiguiente.y < celdaActual.y)
