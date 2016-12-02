@@ -126,8 +126,7 @@ public class Maze
   	  return asignarAccionesRec(entrada,estadoAnterior,estadoActual);   
     }
     
-    
-  public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual){ 
+    public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual){ 
       if(celda.equals(salida)) 
       {
       	if(!acciones.get(estadoActual).contains(salida))
@@ -143,8 +142,7 @@ public class Maze
       }
       if (acciones.get(celda) != null)
       {
-	      	if(!celda.equals(entrada)
-	      			)
+	      	if(!celda.equals(entrada) && !estadoActual.equals(celda))
 	      	{
 	      		estadoAnterior = estadoActual;
 	      		estadoActual = celda;
