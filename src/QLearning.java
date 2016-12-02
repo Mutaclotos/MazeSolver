@@ -73,16 +73,16 @@ dimensiones laberinto = 11 x 8
     0  1 1 1 1 1 1 1 1 1 1 1
     */
 
-    final int statesCount = 19;
+    final static int statesCount = 19;
     final int numRepeticiones = 4;
-    final Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
+    final static Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
     									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
     
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
  
-    int[][] R = new int[statesCount][statesCount]; // reward lookup
-    double[][] Q = new double[statesCount][statesCount]; // Q learning
+    public static int[][] R = new int[statesCount][statesCount]; // reward lookup
+    public static double[][] Q = new double[statesCount][statesCount]; // Q learning
  
     Point[] actionsFromEntrada = new Point[] { stateA };
     
@@ -124,7 +124,7 @@ dimensiones laberinto = 11 x 8
         R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida   
     }
     
-    public int getIndex(Point state)
+    public static int getIndex(Point state)
     {
     	int index = 0;
     	

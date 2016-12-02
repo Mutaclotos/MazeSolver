@@ -49,6 +49,7 @@ public class MazeSolver
     public void resolver()
     {
     	//Se entrena al agente
+    	
     	System.out.println("Empezando recorrido.");
     	qlearning.run();
     	qlearning.showPolicy();

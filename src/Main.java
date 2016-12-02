@@ -271,7 +271,7 @@ public class Main extends JFrame implements KeyListener
     public void init()
     {
         n = new Nivel();
-        //laberinto = new Maze();
+        laberinto = new Maze();
         DisplayMode dm = n.findFirstCompatibleMode(modes1);
         n.setFullScreen(dm); //pone el programa en pantalla completa
         Window w = n.getFullScreenWindow();

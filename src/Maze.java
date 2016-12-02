@@ -22,13 +22,10 @@ public class Maze
     private static Point entrada;
     private static Point salida;
 	private static Point celdaActual; // MOMENTÁNEAMENTE
-	
-	// Se llena con entrada, la lista de estados (retornada por el metodo reconoceEstados y salida
-	private static List<List<Point>> acciones = new ArrayList<List<Point>>();
     
     //3 = salida, 2 = entrada
     public static int[][] MAZE = 
-    							{{1,1,1,1,1,1,1,1,1,1,1},
+    							 {{1,1,1,1,1,1,1,1,1,1,1},
     							  {1,0,0,0,1,0,1,0,0,0,1},
     							  {1,0,1,0,1,0,1,0,1,1,1},
     							  {1,0,1,1,1,0,0,0,1,3,1},
@@ -39,6 +36,12 @@ public class Maze
     
     public static int height = MAZE[0].length; // Se recomienta que las dimensiones sean impares.
     public static int width = MAZE.length;
+    
+    static List<Point> estados = new ArrayList<Point>();
+	public static int stateCount;
+	static Map<Point,List<Point>> acciones = new HashMap<Point,List<Point>>();
+	static Point estadosQL[];
+	static Point accionesQL[][];
     
     /**
      * Método main
@@ -53,32 +56,42 @@ public class Maze
      */
     public Maze()
     {
-        //generarMaze();
-        //insertarEntrada(MAZE);
-        //insertarSalida(MAZE);
         //display(MAZE); 
         //sacar de comentario este llamado para desplegar en la consola el laberinto en código de números
         //0 es camino libre, 1 es muro, 2 es entrada y 3 es salida
     	List<Point> estadosPrueba = new ArrayList<Point>();
         estadosPrueba = reconoceEstados(MAZE);
-        System.out.println(estadosPrueba);
-        System.out.println("\nEntrada: ");
-        System.out.println(entrada);
-        System.out.println("\nSalida: ");
-        System.out.println(salida); 
+        accionesQL = new Point[stateCount][];
+        //System.out.println(estadosPrueba);
+        llenarAcciones(estadosPrueba);
+        estadosQL = estados.toArray(new Point[estados.size()]);
         rellenarAcciones();
+        displayPoint(accionesQL);
+    }
+    
+    public void llenarAcciones(List<Point> lista)
+    {
+    	
+    	for(Point elemento : lista)
+    	{
+    		List<Point> listaAcciones = new ArrayList<Point>();
+    		acciones.put(elemento, listaAcciones);
+    	}
     }
     
     public static List<Point> reconoceEstados(int[][] matriz){
         Point tempPoint;
-        List<Point> estados = new ArrayList<Point>();
         for(int i = 1; i < width - 1;  i++)
           for(int j = 1; j < height - 1; j++)
             if( matriz[i][j] == 2 | matriz[i][j] == 3){
-              if(matriz[i][j] == 2)
+              if(matriz[i][j] == 2){
                 entrada = new Point(i,j);
-              else
+                estados.add(entrada); 
+              }
+              else{
                 salida = new Point(i,j);
+                estados.add(salida); 
+              }
             }
             else
             {
@@ -102,63 +115,51 @@ public class Maze
                 }
             }
         	celdaActual = entrada; // MOMENTÁNEAMENTE
+        	stateCount = estados.size();
             return estados;
        }
-      
-      public static boolean asignarAcciones()
+  
+    public static boolean asignarAcciones()
+    {
+  	  Point estadoAnterior = entrada;
+  	  Point estadoActual = entrada;
+  	  return asignarAccionesRec(entrada,estadoAnterior,estadoActual);   
+    }
+    
+    
+  public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual){ 
+      if(celda.equals(salida)) 
       {
-    	  Point estadoAnterior = entrada;
-    	  Point estadoActual = entrada;
-    	  return asignarAccionesRec(entrada,estadoAnterior,estadoActual);   
+      	if(!acciones.get(estadoActual).contains(salida))
+      	{	
+      		acciones.get(estadoActual).add(salida);
+      	}
+      	if(!acciones.get(salida).contains(salida))
+      	{
+      		acciones.get(salida).add(salida);
+      		QLearning.R[QLearning.getIndex(estadoActual)][QLearning.getIndex(salida)] = 100;
+      	}    	  
+          return true;
       }
-      
-      
-    public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual){ 
-        if(celda.equals(salida)) 
-        {
-        	int index = acciones.indexOf(estadoActual);
-        	if(!acciones.get(index).contains(salida))
-        	{
-        		acciones.get(index).add(salida);
-        	}
-        	if(!acciones.get(acciones.size()-1).contains(salida))
-        	{
-        		acciones.get(acciones.size()-1).add(salida);
-        	}
-        	
-            return true;
-        }
-        if (acciones.contains(celda))
-        {
-        	if(!estadoActual.equals(entrada))
-        	{
-        		estadoAnterior = estadoActual;
-        		estadoActual = celda;
-        		int indexAnterior = acciones.indexOf(estadoAnterior);
-        		if(!acciones.get(indexAnterior).contains(estadoActual))
-            	{
-        			acciones.get(indexAnterior).add(estadoActual);
-            	}
-        		
-        		int indexActual = acciones.indexOf(estadoActual);
-        		if(!acciones.get(indexActual).contains(estadoAnterior))
-            	{
-        			acciones.get(indexActual).add(estadoAnterior);
-            	}
-        		
-        	}
-        	else
-        	{
-        		estadoActual = celda;
-        		int indexActual = acciones.indexOf(estadoActual);
-        		if(!acciones.get(indexActual).contains(entrada))
-            	{
-        			acciones.get(indexActual).add(entrada);	
-            	}
-        			
-        	}
-        }
-        
+      if (acciones.get(celda) != null)
+      {
+	      	if(!celda.equals(entrada)
+	      			)
+	      	{
+	      		estadoAnterior = estadoActual;
+	      		estadoActual = celda;
+	      		if(!acciones.get(estadoAnterior).contains(estadoActual))
+	          	{
+	      			acciones.get(estadoAnterior).add(estadoActual);
+	          	}
+	      		
+	      		if(!acciones.get(estadoActual).contains(estadoAnterior))
+	          	{
+	      			acciones.get(estadoActual).add(estadoAnterior);
+	          	}
+	      		
+	      	}
+      }
         
         // arreglo de todos los movimientos posibles. Se considera cada uno.
         Point[] celdasAdyacentes = getCeldasAdyacentes(celda);
@@ -209,7 +210,22 @@ public class Maze
     			
     		}
     	}
-    	
+    	convertirMatriz();
+    } 
+    
+    private static void convertirMatriz(){
+  	  for(int i = 0; i < estados.size(); i++ )
+  	  {
+  		    System.out.println("Elemento " + i + ": " + estados.get(i));
+  	  		Point[] actionFrom = new Point[acciones.get(estados.get(i)).size()]; 
+  	  		for(int j = 0; j < acciones.get(estados.get(i)).size(); j++)
+  	  		{
+  	  			System.out.println("Insertando " + acciones.get(estados.get(i)).get(j));
+  	  			actionFrom[j] = acciones.get(estados.get(i)).get(j);
+  	  		}
+  	  		accionesQL[i] = actionFrom; 
+  	  	}
+    
     }
       
       
@@ -234,6 +250,18 @@ public class Maze
             for(int column = 0; column < matrix[row].length; column++)
             {
                 System.out.print(matrix[row][column]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public void displayPoint(Point matrix[][])
+    {
+        for(int row = 0; row < matrix.length; row++)
+        {
+            for(int column = 0; column < matrix[row].length; column++)
+            {
+                System.out.print(matrix[row][column].toString()+" ");
             }
             System.out.println();
         }
