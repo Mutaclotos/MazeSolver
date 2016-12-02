@@ -197,67 +197,10 @@ dimensiones laberinto = 11 x 8
     {
     	Point action = null;
     	Random rand = new Random();
-    	if(currentState.equals(statem))
-        {
-        	if(lastState.equals(stateA))
-        	{
-        		action = actions[0];
-        	}
-        	else
-        	{
-        		action = actions[1];
-        	}
-        }
-    	else if(currentState.equals(staten))
-    	{
-    		if(lastState.equals(statem))
-        	{
-        		action = actions[0];
-        	}
-        	else
-        	{
-        		action = actions[1];
-        	}
-    	}
-    	else if(currentState.equals(stateo))
-    	{
-    		if(lastState.equals(stateC))
-        	{
-        		action = actions[0];
-        	}
-        	else
-        	{
-        		action = actions[1];
-        	}
-    	}
-    	else if(currentState.equals(statep))
-    	{
-    		if(lastState.equals(stateG))
-        	{
-        		action = actions[0];
-        	}
-        	else
-        	{
-        		action = actions[1];
-        	}
-    	}
-    	else if(currentState.equals(stateq))
-    	{
-    		if(lastState.equals(stateI))
-        	{
-        		action = actions[0];
-        	}
-        	else
-        	{
-        		action = actions[1];
-        	}
-    	}
-        else
-        {
-        	int index = rand.nextInt(actions.length);
-            action = actions[index];
-        }
     	
+        int index = rand.nextInt(actions.length);
+        action = actions[index];
+        
     	return action;
     }
  
