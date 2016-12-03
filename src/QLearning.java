@@ -14,52 +14,6 @@ public class QLearning {
     final double alpha = 0.1;
     final double gamma = 0.9;
  
-/* 
-dimensiones laberinto = 11 x 8
-
-0 = camino
-1 = muro
-19 estados: 
-			1 entrada = e
-			1 salida = s
-			6 bifurcaciones = A, C, E, G, I, J
-			6 caminos sin salida = B, D, F, H, K, L
-			5 esquinas = m, n, o, p, q
-
-			
-   0 1 2 3 4 5 6 7 8 9 10
-   
-0  1 1 1 1 1 1 1 1 1 1 1
-1  1 m 0 n 1 F 1 p 0 H 1    
-2  1 0 1 B 1 0 1 0 1 1 1
-3  1 0 1 1 1 E 0 G 1 s 1
-4  1 A 0 C 0 o 1 I 0 q 1
-5  1 0 1 0 1 1 1 0 1 1 1
-6  1 e 1 D 1 L 0 J 0 K 1
-7  1 1 1 1 1 1 1 1 1 1 1
-*/
-    //Points con las coordenadas de la matriz anterior
-    /*static final Point entrada = new Point(6,1);
-    static final Point salida = new Point(3,9);
- 
-    static final Point stateA = new Point(4,1);
-    static final Point stateB = new Point(2,3);
-    static final Point stateC = new Point(4,3);
-    static final Point stateD = new Point(6,3);
-    static final Point stateE = new Point(3,5);
-    static final Point stateF = new Point(1,5);
-    static final Point stateG = new Point(3,7);
-    static final Point stateH = new Point(1,9);
-    static final Point stateI = new Point(4,7);
-    static final Point stateJ = new Point(6,7);
-    static final Point stateK = new Point(6,9);
-    static final Point stateL = new Point(6,5);
-    
-    static final Point statem = new Point(1,1);
-    static final Point staten = new Point(1,3);
-    static final Point stateo = new Point(4,5);
-    static final Point statep = new Point(1,7);
-    static final Point stateq = new Point(4,9); */
     
     /* 0 1 2 3 4 5 6 7 8 9 10
     
@@ -73,10 +27,7 @@ dimensiones laberinto = 11 x 8
     0  1 1 1 1 1 1 1 1 1 1 1
     */
 
-    //final static int statesCount = 19;
     final int numRepeticiones = 4;
-    //final static Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
-    //									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
     
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
@@ -84,45 +35,11 @@ dimensiones laberinto = 11 x 8
     
     public static double[][] Q = new double[Maze.stateCount][Maze.stateCount]; // Q learning
  
-    /*Point[] actionsFromEntrada = new Point[] { stateA };
-    
-    Point[] actionsFromA = new Point[] { entrada, statem, stateC };
-    Point[] actionsFromB = new Point[] { staten };
-    Point[] actionsFromC = new Point[] { stateA, stateD, stateo };
-    Point[] actionsFromD = new Point[] { stateC };
-    Point[] actionsFromE = new Point[] { stateo, stateF, stateG };
-    Point[] actionsFromF = new Point[] { stateE };
-    Point[] actionsFromG = new Point[] { stateE, statep, stateI };
-    Point[] actionsFromH = new Point[] { statep };
-    Point[] actionsFromI = new Point[] { stateG, stateq, stateJ };
-    Point[] actionsFromJ = new Point[] { stateI, stateK, stateL };
-    Point[] actionsFromK = new Point[] { stateJ };
-    Point[] actionsFromL = new Point[] { stateJ };   
-    
-    Point[] actionsFromm = new Point[] { staten, stateA };
-    Point[] actionsFromn = new Point[] { stateB, statem };
-    Point[] actionsFromo = new Point[] { stateE, stateC };
-    Point[] actionsFromp = new Point[] { stateH, stateG };
-    Point[] actionsFromq = new Point[] { salida, stateI };
-    
-    Point[] actionsFromSalida = new Point[] { salida };
-    
-    Point[][] actions = new Point[][] { actionsFromEntrada, actionsFromA, actionsFromB, actionsFromC,
-            							actionsFromD, actionsFromE, actionsFromF, actionsFromG, actionsFromH, 
-            							actionsFromI, actionsFromJ, actionsFromK, actionsFromL, actionsFromm, 
-            							actionsFromn, actionsFromo, actionsFromp, actionsFromq, actionsFromSalida };*/
- 
-    //String[] stateNames = new String[] { "entrada", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "m", "n", "o", "p", "q", "salida" };
  
     public QLearning() 
     {
         //init();
     }
- 
-    /*public void init() 
-    {          	
-        R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida   
-    }*/
     
     public static int getIndex(Point state)
     {

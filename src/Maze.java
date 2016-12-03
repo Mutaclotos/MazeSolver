@@ -65,6 +65,7 @@ public class Maze
     	List<Point> estadosPrueba = new ArrayList<Point>();
         estadosPrueba = reconoceEstados(MAZE);
         accionesQL = new Point[stateCount][];
+        System.out.println("Num estados: " + stateCount);
         nombresEstadoQL = new String[stateCount];
         
         //System.out.println(estadosPrueba);
@@ -103,19 +104,19 @@ public class Maze
             else
             {
               if(matriz[i][j] == 0)
-                if( matriz[i-1][j] == 1 && matriz[i+1][j] == 0 && matriz[i][j-1] == 0 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 0 && matriz[i][j-1] == 1 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 0 && matriz[i][j-1] == 0 && matriz[i][j+1] == 1 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 1 && matriz[i][j-1] == 0 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 1 && matriz[i+1][j] == 0 && matriz[i][j-1] == 0 && matriz[i][j+1] == 1 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 1 && matriz[i][j-1] == 0 && matriz[i][j+1] == 1 ||
-                    matriz[i-1][j] == 1 && matriz[i+1][j] == 0 && matriz[i][j-1] == 1 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 0 && matriz[i][j-1] == 0 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 1 && matriz[i+1][j] == 1 && matriz[i][j-1] == 0 && matriz[i][j+1] == 1 ||
-                    matriz[i-1][j] == 1 && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && matriz[i][j+1] == 0 ||
-                    matriz[i-1][j] == 0 && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && matriz[i][j+1] == 1 ||
-                    matriz[i-1][j] == 1 && matriz[i+1][j] == 0 && matriz[i][j-1] == 1 && matriz[i][j+1] == 1)
+                if( matriz[i-1][j] == 1 && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3 || matriz[i+1][j] == 3) && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                	(matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && matriz[i][j-1] == 1 && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                	(matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && matriz[i][j+1] == 1 ||
+                	(matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && matriz[i+1][j] == 1 && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                    matriz[i-1][j] == 1 && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && matriz[i][j+1] == 1 ||
+                    (matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                    (matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && matriz[i+1][j] == 1 && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && matriz[i][j+1] == 1 ||
+                    matriz[i-1][j] == 1 && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && matriz[i][j-1] == 1 && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                    (matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                    matriz[i-1][j] == 1 && matriz[i+1][j] == 1 && (matriz[i][j-1] == 0 || matriz[i][j-1] == 3) && matriz[i][j+1] == 1 ||
+                    matriz[i-1][j] == 1 && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && (matriz[i][j+1] == 0 || matriz[i][j+1] == 3) ||
+                    (matriz[i-1][j] == 0 || matriz[i-1][j] == 3) && matriz[i+1][j] == 1 && matriz[i][j-1] == 1 && matriz[i][j+1] == 1 ||
+                    matriz[i-1][j] == 1 && (matriz[i+1][j] == 0 || matriz[i+1][j] == 3) && matriz[i][j-1] == 1 && matriz[i][j+1] == 1)
                 {
                       tempPoint = new Point(i,j);
                       estados.add(tempPoint);         
