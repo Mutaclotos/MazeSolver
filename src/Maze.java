@@ -19,9 +19,9 @@ public class Maze
     public static final int ENTRADA = 2;
     public static final int SALIDA = 3;
 	
-    private static Point entrada;
-    private static Point salida;
-	private static Point celdaActual; // MOMENTÁNEAMENTE
+    public static Point entrada;
+    public static Point salida;
+	private static Point celdaActual; 
     
     //3 = salida, 2 = entrada
     public static int[][] MAZE = 
@@ -39,9 +39,12 @@ public class Maze
     
     static List<Point> estados = new ArrayList<Point>();
 	public static int stateCount;
-	static Map<Point,List<Point>> acciones = new HashMap<Point,List<Point>>();
-	static Point estadosQL[];
-	static Point accionesQL[][];
+	private static Map<Point,List<Point>> acciones = new HashMap<Point,List<Point>>();
+	public static Point estadosQL[];
+	public static Point accionesQL[][];
+	public static String[] nombresEstadoQL; 
+	
+	public static int[][] R; // reward lookup
     
     /**
      * Método main
@@ -62,10 +65,14 @@ public class Maze
     	List<Point> estadosPrueba = new ArrayList<Point>();
         estadosPrueba = reconoceEstados(MAZE);
         accionesQL = new Point[stateCount][];
+        nombresEstadoQL = new String[stateCount];
+        
         //System.out.println(estadosPrueba);
         llenarAcciones(estadosPrueba);
         estadosQL = estados.toArray(new Point[estados.size()]);
+        R = new int[stateCount][stateCount];
         rellenarAcciones();
+        asignarNombres();
         displayPoint(accionesQL);
     }
     
@@ -119,6 +126,28 @@ public class Maze
             return estados;
        }
   
+    public void asignarNombres()
+    {
+    	int contador = 0;
+    	for(Point estado : estadosQL)
+    	{
+    		if(estado.equals(entrada))
+    		{
+    			nombresEstadoQL[getIndex(estado)] = "Entrada";
+    		}
+    		else if(estado.equals(salida))
+    		{
+    			nombresEstadoQL[getIndex(estado)] = "Salida";
+    		}
+    		else
+    		{
+    			nombresEstadoQL[getIndex(estado)] = "Estado " + contador;
+    			contador++;
+    		}
+    		
+    	}
+    }
+    
     public static boolean asignarAcciones()
     {
   	  Point estadoAnterior = entrada;
@@ -136,7 +165,7 @@ public class Maze
       	if(!acciones.get(salida).contains(salida))
       	{
       		acciones.get(salida).add(salida);
-      		QLearning.R[QLearning.getIndex(estadoActual)][QLearning.getIndex(salida)] = 100;
+      		R[getIndex(estadoActual)][getIndex(salida)] = 100;
       	}    	  
           return true;
       }
@@ -263,5 +292,21 @@ public class Maze
             }
             System.out.println();
         }
+    }
+    
+    public static int getIndex(Point state)
+    {
+    	int index = 0;
+    	
+    	for(Point st : estadosQL)
+    	{
+    		if(st.equals(state))
+    		{
+    			return index;
+    		}
+    		index++;
+    	}
+    	
+    	return 0;
     }
 }

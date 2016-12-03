@@ -39,7 +39,7 @@ dimensiones laberinto = 11 x 8
 7  1 1 1 1 1 1 1 1 1 1 1
 */
     //Points con las coordenadas de la matriz anterior
-    static final Point entrada = new Point(6,1);
+    /*static final Point entrada = new Point(6,1);
     static final Point salida = new Point(3,9);
  
     static final Point stateA = new Point(4,1);
@@ -59,7 +59,7 @@ dimensiones laberinto = 11 x 8
     static final Point staten = new Point(1,3);
     static final Point stateo = new Point(4,5);
     static final Point statep = new Point(1,7);
-    static final Point stateq = new Point(4,9); 
+    static final Point stateq = new Point(4,9); */
     
     /* 0 1 2 3 4 5 6 7 8 9 10
     
@@ -73,18 +73,18 @@ dimensiones laberinto = 11 x 8
     0  1 1 1 1 1 1 1 1 1 1 1
     */
 
-    final static int statesCount = 19;
+    //final static int statesCount = 19;
     final int numRepeticiones = 4;
-    final static Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
-    									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
+    //final static Point[] states = new Point[]{entrada,stateA,stateB,stateC,stateD,stateE,stateF,stateG,
+    //									stateH,stateI,stateJ,stateK,stateL,statem,staten,stateo,statep,stateq,salida};
     
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
  
-    public static int[][] R = new int[statesCount][statesCount]; // reward lookup
-    public static double[][] Q = new double[statesCount][statesCount]; // Q learning
+    
+    public static double[][] Q = new double[Maze.stateCount][Maze.stateCount]; // Q learning
  
-    Point[] actionsFromEntrada = new Point[] { stateA };
+    /*Point[] actionsFromEntrada = new Point[] { stateA };
     
     Point[] actionsFromA = new Point[] { entrada, statem, stateC };
     Point[] actionsFromB = new Point[] { staten };
@@ -110,25 +110,25 @@ dimensiones laberinto = 11 x 8
     Point[][] actions = new Point[][] { actionsFromEntrada, actionsFromA, actionsFromB, actionsFromC,
             							actionsFromD, actionsFromE, actionsFromF, actionsFromG, actionsFromH, 
             							actionsFromI, actionsFromJ, actionsFromK, actionsFromL, actionsFromm, 
-            							actionsFromn, actionsFromo, actionsFromp, actionsFromq, actionsFromSalida };
+            							actionsFromn, actionsFromo, actionsFromp, actionsFromq, actionsFromSalida };*/
  
-    String[] stateNames = new String[] { "entrada", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "m", "n", "o", "p", "q", "salida" };
+    //String[] stateNames = new String[] { "entrada", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "m", "n", "o", "p", "q", "salida" };
  
     public QLearning() 
     {
-        init();
+        //init();
     }
  
-    public void init() 
+    /*public void init() 
     {          	
         R[getIndex(stateq)][getIndex(salida)] = 100; // recompenza por pasar de I a salida   
-    }
+    }*/
     
     public static int getIndex(Point state)
     {
     	int index = 0;
     	
-    	for(Point st : states)
+    	for(Point st : Maze.estadosQL)
     	{
     		if(st.equals(state))
     		{
@@ -163,12 +163,12 @@ dimensiones laberinto = 11 x 8
             // Select random initial state
         	//int randomState = rand.nextInt(statesCount);
             //Point state = states[randomState];
-        	Point state = entrada;
-        	Point lastState = entrada;
-            while (state != salida) // goal state
+        	Point state = Maze.entrada;
+        	Point lastState = Maze.entrada;
+            while (state != Maze.salida) // goal state
             {
                 // Select one among all possible actions for the current state
-                Point[] actionsFromState = actions[getIndex(state)];
+                Point[] actionsFromState = Maze.accionesQL[getIndex(state)];
                 
                 Point action = getActionsFromState(actionsFromState, state, lastState); 
                 
@@ -206,7 +206,7 @@ dimensiones laberinto = 11 x 8
  
     private double maxQ(Point s) 
     {
-        Point[] actionsFromState = actions[getIndex(s)];
+        Point[] actionsFromState = Maze.accionesQL[getIndex(s)];
         double maxValue = Double.MIN_VALUE;
         for (int i = 0; i < actionsFromState.length; i++) 
         {
@@ -222,7 +222,7 @@ dimensiones laberinto = 11 x 8
     // get policy from state
     public Point policy(Point state) 
     {
-        Point[] actionsFromState = actions[getIndex(state)];
+        Point[] actionsFromState = Maze.accionesQL[getIndex(state)];
         double maxValue = Double.MIN_VALUE;
         Point policyGotoState = state; // default goto self if not found
         for (int i = 0; i < actionsFromState.length; i++) 
@@ -251,7 +251,7 @@ dimensiones laberinto = 11 x 8
  
     int R(Point s, Point a) 
     {
-        return R[getIndex(s)][getIndex(a)];
+        return Maze.R[getIndex(s)][getIndex(a)];
     }
  
     void printResult() 
@@ -259,7 +259,7 @@ dimensiones laberinto = 11 x 8
         System.out.println("Print result");
         for (int i = 0; i < Q.length; i++) 
         {
-            System.out.print("out from " + stateNames[i] + ":  ");
+            System.out.print("out from " + Maze.nombresEstadoQL[i] + ":  ");
             for (int j = 0; j < Q[i].length; j++) 
             {
                 System.out.print(df.format(Q[i][j]) + " ");
@@ -272,11 +272,11 @@ dimensiones laberinto = 11 x 8
     void showPolicy() 
     {
         System.out.println("\nshowPolicy");
-        for (int i = 0; i < states.length; i++)
+        for (int i = 0; i < Maze.estadosQL.length; i++)
         {
-            Point from = states[i];
+            Point from = Maze.estadosQL[i];
             Point to =  policy(from);
-            System.out.println("from "+stateNames[getIndex(from)]+" goto "+stateNames[getIndex(to)]);
+            System.out.println("from "+Maze.nombresEstadoQL[getIndex(from)]+" goto " + Maze.nombresEstadoQL[getIndex(to)]);
             System.out.println("from "+from.toString()+" goto "+to.toString());
         }           
     }

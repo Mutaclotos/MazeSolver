@@ -34,8 +34,8 @@ public class MazeSolver
         maze = laberinto;
         //inicio = getInicio();
         //fin = getFinal();
-        inicio = qlearning.entrada;
-        fin = qlearning.salida;
+        inicio = Maze.entrada;
+        fin = Maze.salida;
     }
 
     
