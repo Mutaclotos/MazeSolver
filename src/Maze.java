@@ -25,14 +25,33 @@ public class Maze
     
     //3 = salida, 2 = entrada
     public static int[][] MAZE = 
-    							 {{1,1,1,1,1,1,1,1,1,1,1},
+    							 /*{{1,1,1,1,1,1,1,1,1,1,1},
     							  {1,0,0,0,1,0,1,0,0,0,1},
     							  {1,0,1,0,1,0,1,0,1,1,1},
     							  {1,0,1,1,1,0,0,0,1,3,1},
     							  {1,0,0,0,0,0,1,0,0,0,1},
     							  {1,0,1,0,1,1,1,0,1,1,1},
     							  {1,2,1,0,1,0,0,0,0,0,1},
-    							  {1,1,1,1,1,1,1,1,1,1,1}};
+    							  {1,1,1,1,1,1,1,1,1,1,1}};*/
+    			{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    			 {1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+    			 {1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
+    			 {1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+    			 {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1},
+    			 {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1},
+    			 {1, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    			 {1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1},
+    			 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+    			 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1},
+    			 {1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+    			 {1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+    			 {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+    			 {1, 1, 1, 0, 1, 1, 1, 0, 1, 1 ,0, 1, 1, 1, 1},
+    			 {1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+    			 {1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1},
+    			 {1, 0, 0, 0, 1, 0, 1, 3, 1, 0, 0, 0, 1, 1, 1},
+    			 {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+    			 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     
     public static int height = MAZE[0].length; // Se recomienta que las dimensiones sean impares.
     public static int width = MAZE.length;
@@ -156,7 +175,9 @@ public class Maze
   	  return asignarAccionesRec(entrada,estadoAnterior,estadoActual);   
     }
     
-    public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual){ 
+    public static boolean asignarAccionesRec(Point celda,Point estadoAnterior, Point estadoActual)
+    {
+    	//System.out.println(celda);
       if(celda.equals(salida)) 
       {
       	if(!acciones.get(estadoActual).contains(salida))
@@ -196,6 +217,11 @@ public class Maze
             if(esValido(movimiento)) 
             {	
                 //entrarCelda(movimiento);
+            	if(!celdaActual.equals(entrada))
+            	{
+            		MAZE[celdaActual.x][celdaActual.y] = CAMINO;
+            	}
+            	
                 celdaActual = movimiento;
             	
                 if(asignarAccionesRec(movimiento,estadoAnterior,estadoActual))
@@ -214,19 +240,38 @@ public class Maze
     {
     	Point[] celdasAdyacentes = new Point[4];
     	
-    	List<Integer> aleatorizacion = new ArrayList<>();
-    	for (int i = 0; i <= 3; i++){
-    	    aleatorizacion.add(i);
+    	int[] aleatorizacion = new int[4];
+    	
+    	for (int i = 0; i < aleatorizacion.length; i++)
+    	{
+    	    aleatorizacion[i] = i;
     	}
-    	Collections.shuffle(aleatorizacion);
+    	//Collections.shuffle(aleatorizacion);
+    	mezclarArreglo(aleatorizacion);
     	
-    	
-        celdasAdyacentes[aleatorizacion.get(0)] = new Point(celda.x + 1, celda.y); //abajo
-        celdasAdyacentes[aleatorizacion.get(1)] = new Point(celda.x, celda.y + 1); //derecha
-        celdasAdyacentes[aleatorizacion.get(2)] = new Point(celda.x - 1, celda.y); //izquierda
-        celdasAdyacentes[aleatorizacion.get(3)] = new Point(celda.x, celda.y - 1); //arriba
+        celdasAdyacentes[aleatorizacion[0]] = new Point(celda.x + 1, celda.y); //abajo
+        celdasAdyacentes[aleatorizacion[1]] = new Point(celda.x, celda.y + 1); //derecha
+        celdasAdyacentes[aleatorizacion[2]] = new Point(celda.x - 1, celda.y); //izquierda
+        celdasAdyacentes[aleatorizacion[3]] = new Point(celda.x, celda.y - 1); //arriba
 
         return celdasAdyacentes;
+    }
+    
+    static Random random = new Random();
+    private static void mezclarArreglo(int[] arreglo)
+    {
+        int index;
+        
+        for (int i = arreglo.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            if (index != i)
+            {
+            	arreglo[index] ^= arreglo[i];
+            	arreglo[i] ^= arreglo[index];
+            	arreglo[index] ^= arreglo[i];
+            }
+        }
     }
     
     private static void rellenarAcciones()
