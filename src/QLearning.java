@@ -27,7 +27,7 @@ public class QLearning {
     0  1 1 1 1 1 1 1 1 1 1 1
     */
 
-    final int numRepeticiones = 100;
+    final int numRepeticiones = 500;
     
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))

@@ -53,8 +53,8 @@ public class MazeSolver
     	System.out.println("Empezando recorrido.");
     	qlearning.run();
     	qlearning.showPolicy();
-        //counter++;
-        /*if(encontrarCamino(inicio))
+        counter++;
+        if(encontrarCamino(inicio))
         {
 			//System.out.println("Laberinto resuelto");
             //display(maze);
@@ -98,7 +98,7 @@ public class MazeSolver
                 }
                 Main.avatar = null; //Borra al avatar anterior
         		Main.laberinto = null;
-                Main.laberinto = new Maze(); //Crea un nuevo laberinto, y lo llena de todos sus elementos
+                Main.laberinto = new Maze(counter+1); //Crea un nuevo laberinto, y lo llena de todos sus elementos
                 main.cargarMuro();
                 main.cargarEntrada();
                 main.cargarSalida();
@@ -108,13 +108,17 @@ public class MazeSolver
                 //display(Maze.MAZE);
                 
                 resolver(); //Se llama al metodo resolver nuevamente para encontrar la solucion de este nuevo laberinto
-            }*/
-    		encontrarCamino(inicio);
+            }
+    		//encontrarCamino(inicio);
     	
-        	System.out.println("Recorrido terminado.");
-            Main.victoria = true; //Se despliega el mensaje de victoria
-            Main.runRecorrido = false; //Se termina el proceso del thread1
-        
+        	//System.out.println("Recorrido terminado.");
+           // Main.victoria = true; //Se despliega el mensaje de victoria
+           // Main.runRecorrido = false; //Se termina el proceso del thread1
+        }
+        else
+        {
+        	System.out.println("No se encontro la salida del laberinto");
+        }
     }
 
     /**
@@ -127,36 +131,8 @@ public class MazeSolver
      * anterior. El algoritmo termina cuando se llega a la salida.
      * 
      */
-    private void encontrarCamino(Point celda) 
+    private boolean encontrarCamino(Point celda) 
     {
-        /*// Si se encontró la salida, retorna true
-        if(labTerminado(celda)) 
-        {
-            maze[celda.x][celda.y] = SALIDA;
-            return true;
-        }
-
-        // arreglo de todos los movimientos posibles. Se considera cada uno.
-        Point[] celdasAdyacentes = getCeldasAdyacentes(celda);
-
-        for (Point movimiento : celdasAdyacentes)
-        {
-            if(esValido(movimiento)) 
-            {
-                entrarCelda(movimiento);
-
-                esperar();
-                
-                if(encontrarCamino(movimiento))
-                {
-                    return true;
-                }
-                
-                salirCelda(movimiento);
-
-                esperar();
-            }
-        }*/
 
         //Si no hay movimientos legales desde esta celda, o todos los movimientos
         //intentados han conducido a backtracks, se retorna false para comunicarle 
@@ -219,7 +195,7 @@ public class MazeSolver
         	}
         }
         System.out.println("Recorrido terminado.");
-        //return true;
+        return true;
     }
 
     /**
@@ -389,7 +365,7 @@ public class MazeSolver
      */
     public static void main (String[] args)
     {
-        Maze maze = new Maze();
+        Maze maze = new Maze(1);
 
         MazeSolver solucion = new MazeSolver();
         solucion.iniciar(Maze.MAZE);
