@@ -11,8 +11,8 @@ public class QLearning {
     final DecimalFormat df = new DecimalFormat("#.##");
  
     // path finding
-    final double alpha = 0.1;
-    final double gamma = 0.9;
+    final double alpha = 0.5;
+    final double gamma = 0.5;
  
     
     /* 0 1 2 3 4 5 6 7 8 9 10
@@ -27,7 +27,7 @@ public class QLearning {
     0  1 1 1 1 1 1 1 1 1 1 1
     */
 
-    final int numRepeticiones = 500;
+    final int numRepeticiones = 50;
     
  
     // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
@@ -62,7 +62,7 @@ public class QLearning {
         long BEGIN = System.currentTimeMillis();
  
         QLearning obj = new QLearning();
-        
+        Maze m = new Maze(3);
         obj.run();
         obj.printResult();
         obj.showPolicy();
@@ -107,6 +107,7 @@ public class QLearning {
                 state = nextState;
             }
         }
+        System.out.println("qlearning");
     }
     
     // Selection strategy is random if the current state is not a corner

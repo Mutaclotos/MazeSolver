@@ -22,6 +22,7 @@ public class Maze
     public static Point entrada;
     public static Point salida;
 	private static Point celdaActual; 
+	private static int numRepeticiones = 10000;
     
     							//Laberinto de prueba
     							 /*{{1,1,1,1,1,1,1,1,1,1,1},
@@ -119,7 +120,7 @@ public class Maze
      */
     public static void main(String[] args)
     {
-        Maze m = new Maze(1);
+        Maze m = new Maze(3);
     }
     
     /**
@@ -158,7 +159,8 @@ public class Maze
         R = new int[stateCount][stateCount];
         rellenarAcciones();
         asignarNombres();
-        displayPoint(accionesQL);
+        //displayPoint(accionesQL);
+        //display(R);
     }
     
     public void llenarAcciones(List<Point> lista)
@@ -252,7 +254,7 @@ public class Maze
       	if(!acciones.get(salida).contains(salida))
       	{
       		acciones.get(salida).add(salida);
-      		R[getIndex(estadoActual)][getIndex(salida)] = 100;
+      		//R[getIndex(estadoActual)][getIndex(salida)] = 100;
       	}    	  
           return true;
       }
@@ -322,11 +324,11 @@ public class Maze
         return celdasAdyacentes;
     }
     
-    static Random random = new Random();
+    
     private static void mezclarArreglo(int[] arreglo)
     {
         int index;
-        
+        final Random random = new Random();
         for (int i = arreglo.length - 1; i > 0; i--)
         {
             index = random.nextInt(i + 1);
@@ -341,15 +343,20 @@ public class Maze
     
     private static void rellenarAcciones()
     {
-    	for(int i = 0; i < 1000; i++)
+    	for(int i = 0; i < numRepeticiones; i++)
     	{
     		if(asignarAcciones())
     		{
-    			
+    			limpiarLaberinto();
     		}
     	}
     	convertirMatriz();
     } 
+    
+    private static void asignarPuntaje(Point celda)
+    {
+    	R[getIndex(celda)][getIndex(salida)] = 100;
+    }
     
     private static void convertirMatriz(){
   	  for(int i = 0; i < estados.size(); i++ )
@@ -360,6 +367,11 @@ public class Maze
   	  		{
   	  			System.out.println("Insertando " + acciones.get(estados.get(i)).get(j));
   	  			actionFrom[j] = acciones.get(estados.get(i)).get(j);
+  	  			if(acciones.get(estados.get(i)).get(j).equals(salida))
+  	  			{
+  	  				System.out.println("Asignando 100 a" + estados.get(i) + salida);
+  	  				asignarPuntaje(estados.get(i));
+  	  			}
   	  		}
   	  		accionesQL[i] = actionFrom; 
   	  	}
@@ -374,6 +386,20 @@ public class Maze
             return false;
         }
         return ( MAZE[celda.x][celda.y] == VACIO || MAZE[celda.x][celda.y] == SALIDA);
+    }
+    
+    public static void limpiarLaberinto()
+    {
+    	for(int row = 0; row < MAZE.length; row++)
+        {
+            for(int column = 0; column < MAZE[row].length; column++)
+            {
+                if(MAZE[row][column] == CAMINO)
+                {
+                	MAZE[row][column] = VACIO;
+                }
+            }
+        }
     }
     
     public int[][] getMaze()
